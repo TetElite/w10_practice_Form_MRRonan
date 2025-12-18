@@ -32,7 +32,7 @@ class ExpenseItem extends StatelessWidget {
       key: ValueKey(expense.id),
       onDismissed: (direction) {
         onSlideAway(expense);
-      }, 
+      },
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Card(

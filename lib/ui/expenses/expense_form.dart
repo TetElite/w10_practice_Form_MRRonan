@@ -14,6 +14,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
 
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+  Category _selectedCategory = Category.food;
 
   @override
   void dispose(){
@@ -26,7 +27,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
     //  1 Build an expense
     String  title = _titleController.text;
     double? amount = double.tryParse(_amountController.text);             // for now..
-    Category category =Category.food;   // for now..
+    Category category = _selectedCategory;
     DateTime date = DateTime.now();
 
     if (amount == null || amount <= 0 || title.trim().isEmpty) {
@@ -66,6 +67,25 @@ class _ExpenseFormState extends State<ExpenseForm> {
             keyboardType: TextInputType.number,
             maxLength: 50,
           ),
+          SizedBox(height: 20,),
+          DropdownButton<Category>(
+            value: _selectedCategory,
+            items: Category.values.map((category) {
+              return DropdownMenuItem(
+                value: category,
+                child: Text(category.name.toUpperCase()),
+              );
+            }).toList(),
+            onChanged: (value) {
+              if (value != null) {
+                setState(() {
+                  _selectedCategory = value;
+                });
+              }
+            },
+          ),
+          SizedBox(height: 20,),
+          
           ElevatedButton(onPressed: onCancel, child: Text("Cancel")),
           SizedBox(width: 10,),
           ElevatedButton(onPressed: onCreate, child: Text("Create")),
