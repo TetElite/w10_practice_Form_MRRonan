@@ -56,7 +56,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
       ),
       body: ListView.builder(
         itemCount: _expenses.length,
-        itemBuilder: (context, index) => ExpenseItem(expense: _expenses[index]),
+        itemBuilder: (context, index) => ExpenseItem(expense: _expenses[index], onSlideAway: (Expense p1) {  },),
       ),
     );
   }

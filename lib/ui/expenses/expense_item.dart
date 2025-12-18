@@ -3,9 +3,10 @@ import 'package:intl/intl.dart';
 import '../../models/expense.dart';
 
 class ExpenseItem extends StatelessWidget {
-  ExpenseItem({super.key, required this.expense});
+  ExpenseItem({super.key, required this.expense, required this.onSlideAway});
 
   final Expense expense;
+  final void Function(Expense) onSlideAway;
 
   IconData get expenseIcon {
     switch (expense.category) {
@@ -27,37 +28,46 @@ class ExpenseItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    expense.title,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text("${expense.amount.toStringAsPrecision(2)} \$"),
-                ],
-              ),
-              Spacer(),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Icon(expenseIcon),
-                  ),
-                  Text(expenseDate),
-                ],
-              ),
-            ],
+    return Dismissible(
+      key: ValueKey(expense.id),
+      onDismissed: (direction) {
+        onSlideAway(expense);
+      }, 
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      expense.title,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text("${expense.amount.toStringAsPrecision(2)} \$"),
+                  ],
+                ),
+                Spacer(),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Icon(expenseIcon),
+                    ),
+                    Text(expenseDate),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
+    
   }
 }
+
+
